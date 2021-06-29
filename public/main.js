@@ -1,46 +1,12 @@
 'use strict';
 
+const Block = window.Block;
+const UserService = window.UserService;
+const userService = new UserService();
 
-function auth(username, email, callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/auth', true);
-    xhr.withCredentials = true;
-
-    const user = {username, email};
-    const body = JSON.stringify(user);
-
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf8');
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) return;
-        if (+xhr.status !== 200) {
-            return callback(xhr, null);
-        }
-
-        const response = JSON.parse(xhr.responseText);
-        callback(null, response);
-    };
-
-    xhr.send(body);
-}
-
-function whoami(callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/me', true);
-    xhr.withCredentials = true;
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) return;
-        if (+xhr.status !== 200) {
-            return callback(xhr, null);
-        }
-
-        const response = JSON.parse(xhr.responseText);
-        callback(null, response);
-    };
-
-    xhr.send();
-}
+userService.auth('username', '1@2.ru', function (err, response) {
+    console.log(err, response);
+});
 
 const sections = [
     ['login', 'Окно логина'],
@@ -49,14 +15,14 @@ const sections = [
 ];
 
 
-const application = document.querySelector('#application');
-const nav = document.getElementById('navigation');
+const application = new Block(document.querySelector('#application'));
+const nav = new Block(document.getElementById('navigation'));
 
-const loginForm = document.getElementById('login-form');
+const loginForm = new Block(document.getElementById('login-form'));
 
-const usernameDiv = document.getElementById('username-div');
-const emailDiv = document.getElementById('email-div');
-const countDiv = document.getElementById('count-div');
+const usernameDiv = new Block(document.getElementById('username-div'));
+const emailDiv = new Block(document.getElementById('email-div'));
+const countDiv = new Block(document.getElementById('count-div'));
 
 for (let section of sections) {
     const button = document.createElement('input');
