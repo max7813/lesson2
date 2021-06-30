@@ -2,14 +2,14 @@
     'use strict';
 
     class Http {
-        static Get(path, callback) {
+        static Get(address, callback) {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', path, true);
+            xhr.open('GET', address, true);
             xhr.withCredentials = true;
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
-                if (+xhr.status !== 200) {
+                if (+xhr.status >= 400) {
                     return callback(xhr, null);
                 }
 
@@ -20,15 +20,15 @@
             xhr.send();
         }
 
-        static Post(path, body, callback) {
+        static Post(address, body, callback) {
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', path, true);
+            xhr.open('POST', address, true);
             xhr.withCredentials = true;
             xhr.setRequestHeader('Content-Type', 'application/json; charset=utf8');
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
-                if (+xhr.status !== 200) {
+                if (+xhr.status >= 400) {
                     return callback(xhr, null);
                 }
 
